@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/droundy/goopt"
-	"github.com/jamesandariese/naglevelparse"
+	"github.com/jamesandariese/nagiosrangeparser"
 	"log"
 	"os"
 	"strconv"
@@ -26,7 +26,7 @@ func main() {
 		os.Exit(2)
 	}
 	if s, err := strconv.ParseFloat(goopt.Args[0], 64); err == nil {
-		if criticalComparator, err := naglevelparse.Compile(*critical); err != nil {
+		if criticalComparator, err := nagiosrangeparser.Compile(*critical); err != nil {
 			log.Printf("UNKNOWN: error parsing critical pattern %v: %#v", *critical, err)
 			os.Exit(3)
 		} else {
@@ -35,7 +35,7 @@ func main() {
 				os.Exit(2)
 			}
 		}
-		if warningComparator, err := naglevelparse.Compile(*warning); err != nil {
+		if warningComparator, err := nagiosrangeparser.Compile(*warning); err != nil {
 			log.Printf("UNKNOWN: error parsing warning pattern %v: %#v", *warning, err)
 			os.Exit(3)
 		} else {

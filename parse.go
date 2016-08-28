@@ -1,4 +1,4 @@
-package naglevelparse
+package nagiosrangeparser
 
 import (
 	"errors"
