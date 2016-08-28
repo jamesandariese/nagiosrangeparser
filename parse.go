@@ -62,58 +62,58 @@ func Compile(f string) (*Comparator, error) {
 	}
 
 	c.at = false
-	if tokens[0].Value() == "@" {
+	if tokens[0].String() == "@" {
 		c.at = true
 		offset += 1
 	}
 	if len(tokens)-offset == 3 {
-		if tokens[offset+1].Name() == "COLON" {
-			if tokens[offset+0].Name() == "NUMBER" {
-				c.min, _ = strconv.ParseFloat(tokens[offset+0].Value(), 64)
-				if tokens[offset+2].Name() == "NUMBER" {
-					c.max, _ = strconv.ParseFloat(tokens[offset+2].Value(), 64)
+		if tokens[offset+1].Type() == "COLON" {
+			if tokens[offset+0].Type() == "NUMBER" {
+				c.min, _ = strconv.ParseFloat(tokens[offset+0].String(), 64)
+				if tokens[offset+2].Type() == "NUMBER" {
+					c.max, _ = strconv.ParseFloat(tokens[offset+2].String(), 64)
 					return c, nil
-				} else if tokens[offset+2].Name() == "TILDE" {
+				} else if tokens[offset+2].Type() == "TILDE" {
 					c.max = math.Inf(-1)
 					return c, nil
 				}
-			} else if tokens[offset+0].Name() == "TILDE" {
+			} else if tokens[offset+0].Type() == "TILDE" {
 				c.min = math.Inf(-1)
-				if tokens[offset+2].Name() == "NUMBER" {
-					c.max, _ = strconv.ParseFloat(tokens[offset+2].Value(), 64)
+				if tokens[offset+2].Type() == "NUMBER" {
+					c.max, _ = strconv.ParseFloat(tokens[offset+2].String(), 64)
 					return c, nil
-				} else if tokens[offset+2].Name() == "TILDE" {
+				} else if tokens[offset+2].Type() == "TILDE" {
 					c.max = math.Inf(-1)
 					return c, nil
 				}
 			}
 		}
 	} else if len(tokens)-offset == 2 {
-		if tokens[offset+0].Name() == "COLON" {
+		if tokens[offset+0].Type() == "COLON" {
 			c.min = 0
-			if tokens[offset+1].Name() == "NUMBER" {
-				c.max, _ = strconv.ParseFloat(tokens[offset+1].Value(), 64)
+			if tokens[offset+1].Type() == "NUMBER" {
+				c.max, _ = strconv.ParseFloat(tokens[offset+1].String(), 64)
 				return c, nil
-			} else if tokens[offset+1].Name() == "TILDE" {
+			} else if tokens[offset+1].Type() == "TILDE" {
 				c.max = math.Inf(-1)
 				return c, nil
 			}
-		} else if tokens[offset+1].Name() == "COLON" {
+		} else if tokens[offset+1].Type() == "COLON" {
 			c.max = math.Inf(1)
-			if tokens[offset+0].Name() == "NUMBER" {
-				c.min, _ = strconv.ParseFloat(tokens[offset+0].Value(), 64)
+			if tokens[offset+0].Type() == "NUMBER" {
+				c.min, _ = strconv.ParseFloat(tokens[offset+0].String(), 64)
 				return c, nil
-			} else if tokens[offset+0].Name() == "TILDE" {
+			} else if tokens[offset+0].Type() == "TILDE" {
 				c.min = math.Inf(-1)
 				return c, nil
 			}
 		}
 	} else if len(tokens)-offset == 1 {
 		c.min = 0
-		if tokens[offset+0].Name() == "NUMBER" {
-			c.max, _ = strconv.ParseFloat(tokens[offset+0].Value(), 64)
+		if tokens[offset+0].Type() == "NUMBER" {
+			c.max, _ = strconv.ParseFloat(tokens[offset+0].String(), 64)
 			return c, nil
-		} else if tokens[offset+0].Name() == "TILDE" {
+		} else if tokens[offset+0].Type() == "TILDE" {
 			c.max = math.Inf(-1)
 			return c, nil
 		}
